@@ -113,6 +113,28 @@
   .tier{background:#14213d;color:#fff;border-radius:6px;padding:14px;margin-bottom:14px;font-size:13px}.tier b{color:#d9b877;display:block;font-size:15px}
   .cbtn{display:block;width:100%;background:#2f7f86;color:#fff;border:0;border-radius:4px;padding:14px;font-size:16px;font-weight:600;cursor:pointer}
   .cempty{text-align:center;padding:60px 0;color:#667}
+  #admin,#fraud{background:#f4f6f8;min-height:100vh;color:#1f2937}
+  .ahead{background:#14213d;color:#fff;padding:14px 5%;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.ahead a{color:#d9b877;text-decoration:none;font-size:14px}
+  .abody{max-width:1280px;margin:0 auto;padding:20px 5%}
+  .atools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}.atools input,.atools select{padding:10px 12px;border:1px solid #cfd6dd;border-radius:6px;background:#fff;font-size:14px;width:auto}.atools input{flex:1;min-width:240px}
+  .abtn{border:1px solid #cfd6dd;background:#fff;border-radius:6px;padding:9px 14px;cursor:pointer;font-size:14px}.abtn.p{background:#2f7f86;color:#fff;border-color:#2f7f86}
+  .agrid{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}.atable{flex:2;min-width:520px;background:#fff;border:1px solid #e1e6eb;border-radius:8px;overflow:hidden}
+  .atable table{width:100%;border-collapse:collapse;font-size:13px}.atable th{background:#eef1f4;text-align:left;padding:10px;font-size:12px;color:#556}.atable td{padding:10px;border-top:1px solid #eef1f4}
+  .atable tr.rw2{cursor:pointer}.atable tr.rw2:hover,.atable tr.sel{background:#eaf4f5}
+  .dp{flex:1;min-width:320px;background:#fff;border:1px solid #e1e6eb;border-radius:8px;padding:18px;position:sticky;top:10px}
+  .dp h3{margin:0 0 4px}.dp h4{margin:16px 0 6px;font-size:13px;text-transform:uppercase;color:#667}.dp ul{margin:0;padding-left:18px;font-size:14px}
+  .pill2{display:inline-block;border-radius:10px;padding:2px 9px;font-size:11px;font-weight:700;color:#fff}.pAL{background:#2e7d32}.pCH{background:#e08a00}.pDE{background:#c62828}
+  .script{background:#fff8e6;border:1px solid #f0dca0;border-radius:6px;padding:10px 12px;font-size:14px}.donot{background:#fdecea;border:1px solid #f3b9b3;border-radius:6px;padding:10px 12px;font-size:13px;color:#8a1c14}
+  .anote{color:#667;font-size:12px;margin-top:10px}
+  #fraud .ahead{background:#1b1030}#fraud .dp{max-height:calc(100vh - 20px);overflow:auto;flex:1.3;min-width:400px}
+  .kpis{display:flex;align-items:stretch;gap:12px;flex-wrap:wrap;margin-bottom:14px}.kpi{display:flex;flex-direction:column;justify-content:center;flex:1;min-width:130px;background:#fff;border:1px solid #e1e6eb;border-radius:8px;padding:12px}.kpi b{display:block;font-size:22px}.kpi span{font-size:12px;color:#667}
+  .hist{display:flex;align-items:flex-end;gap:4px;height:44px;margin-top:4px}.hc{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}.hc i{width:100%;border-radius:2px 2px 0 0}.hc em{font-style:normal;font-size:11px;color:#444}.hc u{text-decoration:none;font-size:10px;color:#889;margin-top:2px}.hleg{display:flex;gap:10px;font-size:10px;margin-top:2px;white-space:nowrap}
+  .tabs{display:flex;gap:6px;margin-bottom:12px}.tabs button{border:1px solid #cfd6dd;background:#fff;border-radius:6px;padding:8px 14px;cursor:pointer}.tabs button.on{background:#1b1030;color:#fff}
+  .kv{display:grid;grid-template-columns:140px 1fr;gap:3px 10px;font-size:13px}.kv span:nth-child(odd){color:#667}.kv span{word-break:break-all}
+  .bar{position:relative;height:14px;background:linear-gradient(90deg,#2e7d32 0 30%,#e08a00 30% 70%,#c62828 70%);border-radius:7px;margin:8px 0}.bar i{position:absolute;top:-3px;width:4px;height:20px;background:#111;border-radius:2px}
+  .rt{width:100%;border-collapse:collapse;font-size:12px}.rt td,.rt th{padding:5px 6px;border-top:1px solid #eef1f4;text-align:left}.rt tr.off{color:#9aa}
+  .tl{font-size:12px;border-left:2px solid #cfd6dd;margin:0;padding-left:10px;list-style:none}.tl li{margin-bottom:5px}
+  .fnote{width:100%;padding:8px;border:1px solid #cfd6dd;border-radius:6px;font:inherit;font-size:13px}.warn2{background:#fdecea;border:1px solid #f3b9b3;border-radius:6px;padding:6px 10px;font-size:12px;margin-top:6px}
 </style>
 </head>
 <body>
@@ -141,6 +163,34 @@
     </div>
   </div>
   <footer>© 2026 Retail World FZE<br>Terms &amp; Conditions - Privacy Policy</footer>
+</div>
+<div id="fraud" hidden>
+  <div class="ahead"><b>homecentre &middot; Fraud operations console &mdash; restricted</b><span><a href="#admin">Support console</a> &nbsp;&middot;&nbsp; <a href="#cart">&larr; Back to shop</a></span></div>
+  <div class="abody">
+    <div class="kpis" id="fkpis"></div>
+    <div class="tabs" id="ftabs"><button data-t="dec" class="on">Decisions</button><button data-t="lists">Block / allow lists</button><button data-t="rules">Rules &amp; thresholds</button></div>
+    <div id="fdec">
+      <div class="atools"><input id="fq" placeholder="Search reference, user, device id, action or IP"><select id="fdecsel"><option value="">All outcomes</option><option value="ALLOW">Allowed</option><option value="CHALLENGE_OTP">OTP challenge</option><option value="DECLINE">Declined</option></select><select id="fcase"><option value="">All case statuses</option><option>new</option><option>investigating</option><option>confirmed fraud</option><option>false positive</option><option>closed</option></select><button class="abtn" id="fsample">Load sample data</button></div>
+      <div class="agrid"><div class="atable"><table><thead><tr><th>Time</th><th>Ref</th><th>User</th><th>Action</th><th>Score</th><th>Decision</th><th>Case</th></tr></thead><tbody id="frows"></tbody></table></div><div class="dp" id="fdetail"><b>Select a decision</b><p class="anote">Full scoring inputs, device, network and case tools appear here.</p></div></div>
+    </div>
+    <div id="flists" hidden></div>
+    <div id="frules" hidden></div>
+    <p class="anote">Prototype: IP, geo and ASN are simulated from the device. A real partner SDK returns them.</p>
+  </div>
+</div>
+<div id="admin" hidden>
+  <div class="ahead"><b>homecentre &middot; Support console &mdash; Fraud decisions</b><span><a href="#fraud">Fraud ops console</a> &nbsp;&middot;&nbsp; <a href="#cart">&larr; Back to shop</a></span></div>
+  <div class="abody">
+    <div class="atools">
+      <input id="aq" placeholder="Search by reference (FR-XXXXXX), email or mobile, or action">
+      <select id="adec"><option value="">All outcomes</option><option value="DECLINE">Declined</option><option value="CHALLENGE_OTP">OTP challenged</option><option value="ALLOW">Allowed</option></select>
+      <button class="abtn" id="asample">Load sample data</button><button class="abtn" id="aclear">Clear log</button>
+    </div>
+    <div class="agrid">
+      <div class="atable"><table><thead><tr><th>Time</th><th>Reference</th><th>Customer</th><th>Action</th><th>Payment method</th><th>Score</th><th>Decision</th><th>Final outcome</th></tr></thead><tbody id="arows"></tbody></table><div class="cempty" id="aempty" hidden>No decisions yet. Use the shop (or load sample data) and they will appear here.</div></div>
+      <div class="dp" id="adetail"><b>Select a decision</b><p class="anote">Ask the customer for the reference shown on their screen (FR-XXXXXX), or search by their email/mobile.</p></div>
+    </div>
+  </div>
 </div>
 <div id="signin" hidden>
 <div id="step1">
@@ -294,6 +344,7 @@
     <option value="high">Force high risk (91)</option>
   </select>
   <label style="display:block;margin-top:8px;font-weight:400"><input type="checkbox" id="showfraud" style="width:auto"> Show fraud score in popups (internal)</label>
+  <div style="margin-top:8px"><a href="#admin" style="color:#d9b877">Support console</a> &nbsp;&middot;&nbsp; <a href="#fraud" style="color:#d9b877">Fraud ops</a> &rarr;</div>
   <div style="margin-top:8px;color:#aaa">Allow &lt;30 · OTP 30–69 · Decline ≥70.<br>Tip: @mailinator.com scores 45 (OTP challenge); @blocked.test scores 75 (decline).</div>
 </div>
 
@@ -305,6 +356,9 @@ window.FraudSDK = (() => {
   const start = Date.now();
   let pasted = false;
   document.addEventListener('paste', () => (pasted = true));
+  let deviceId = '';
+  try { deviceId = localStorage.getItem('fraudDeviceId') || ''; if (!deviceId) localStorage.setItem('fraudDeviceId', (deviceId = 'DV-' + crypto.randomUUID().slice(0, 8).toUpperCase())); } catch { deviceId = 'DV-UNKNOWN'; }
+  const sessionId = 'SS-' + crypto.randomUUID().slice(0, 8).toUpperCase();
   return {
     collect: () => ({
       webdriver: !!navigator.webdriver,
@@ -313,44 +367,91 @@ window.FraudSDK = (() => {
       vpnLikely: false,
       tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
       ua: navigator.userAgent,
+      deviceId,
+      sessionId,
+      screen: `${screen.width}x${screen.height}`,
+      lang: navigator.language,
+      platform: navigator.platform,
+      cores: navigator.hardwareConcurrency,
+      touch: navigator.maxTouchPoints > 0,
+      cookies: navigator.cookieEnabled,
+      referrer: document.referrer || 'direct',
     }),
   };
 })();
 
 // ---------- Mock partner (would be an external vendor reached via API/SDK) ----------
 const THRESHOLDS = { challenge: 30, decline: 70 }; // <30 allow, 30-69 OTP, >=70 decline
+const BASE_SCORE = 5;
+const RULES = [
+  { id: 'blocked_domain', label: 'email domain on partner blocklist', pts: 70, desc: 'Email domain is on the partner blocklist (*.blocked.test)', input: (c) => c.domain || '(none)', test: (c) => /(^|\.)blocked\.test$/i.test(c.domain) },
+  { id: 'disposable_email', label: 'disposable email domain', pts: 40, desc: 'Throwaway email provider (mailinator, tempmail, yopmail...)', input: (c) => c.domain || '(none)', test: (c) => /mailinator|tempmail|10minutemail|guerrilla|yopmail/i.test(c.domain) },
+  { id: 'digit_run', label: 'email local-part has long digit run', pts: 10, desc: '5+ consecutive digits in the email name (bot-generated pattern)', input: (c) => c.local || '(none)', test: (c) => /\d{5,}/.test(c.local) },
+  { id: 'automation', label: 'automation/headless browser detected', pts: 35, desc: 'navigator.webdriver is true (Selenium / Playwright / headless)', input: (c) => String(!!c.s.webdriver), test: (c) => !!c.s.webdriver },
+  { id: 'fast_form', label: 'form completed unusually fast', pts: 25, desc: 'Time from page load to submit under 4 seconds', input: (c) => c.s.timeToSubmitMs != null ? `${c.s.timeToSubmitMs} ms` : '(n/a)', test: (c) => c.s.timeToSubmitMs != null && c.s.timeToSubmitMs < 4000 },
+  { id: 'pasted', label: 'pasted form values', pts: 5, desc: 'Paste event seen in the session (credential stuffing hint)', input: (c) => String(!!c.s.pasted), test: (c) => !!c.s.pasted },
+  { id: 'vpn', label: 'VPN/proxy likely', pts: 15, desc: 'Partner IP intelligence flags VPN / proxy / TOR', input: (c) => String(!!c.s.vpnLikely), test: (c) => !!c.s.vpnLikely },
+  { id: 'phone_format', label: 'phone not valid UAE mobile format', pts: 15, desc: 'Mobile number does not match the expected format', input: (c) => c.phone || '(none)', test: (c) => !!c.phone && !/^5\d{8}$/.test(c.phone.replace(/\s/g, '')) },
+];
+const rulePts = (r) => { try { const o = JSON.parse(localStorage.getItem('fraudRules')) || {}; return o[r.id] ?? r.pts; } catch { return r.pts; } };
 function partnerScore({ email = '', phone = '', signals = {}, scenario }) {
-  const reasons = [];
-  let score = 5;
-  const add = (n, r) => { score += n; reasons.push(`${r} (+${n})`); };
   if (/^(low|medium|high)$/.test(scenario || '')) {
-    return { score: { low: 12, medium: 52, high: 91 }[scenario], reasons: [`forced demo scenario: ${scenario}`] };
+    return { score: { low: 12, medium: 52, high: 91 }[scenario], reasons: [`forced demo scenario: ${scenario}`], rules: [], forced: scenario };
   }
-  const domain = email.split('@')[1] || '';
-  if (/(^|\.)blocked\.test$/i.test(domain)) add(70, 'email domain on partner blocklist');
-  if (/mailinator|tempmail|10minutemail|guerrilla|yopmail/i.test(domain)) add(40, 'disposable email domain');
-  if (/\d{5,}/.test(email.split('@')[0])) add(10, 'email local-part has long digit run');
-  if (signals.webdriver) add(35, 'automation/headless browser detected');
-  if (signals.timeToSubmitMs != null && signals.timeToSubmitMs < 4000) add(25, 'form completed unusually fast');
-  if (signals.pasted) add(5, 'pasted form values');
-  if (signals.vpnLikely) add(15, 'VPN/proxy likely');
-  if (phone && !/^5\d{8}$/.test(phone.replace(/\s/g, ''))) add(15, 'phone not valid UAE mobile format');
-  return { score: Math.min(100, score), reasons };
+  const c = { email, phone, s: signals, domain: email.split('@')[1] || '', local: email.split('@')[0] || '' };
+  const rules = RULES.map((r) => ({ id: r.id, label: r.label, desc: r.desc, pts: rulePts(r), fired: !!r.test(c), input: r.input(c) }));
+  const fired = rules.filter((r) => r.fired);
+  return { score: Math.min(100, BASE_SCORE + fired.reduce((t, r) => t + r.pts, 0)), reasons: fired.map((r) => `${r.label} (+${r.pts})`), rules };
 }
 const decide = (score) => score >= THRESHOLDS.decline ? 'DECLINE' : score >= THRESHOLDS.challenge ? 'CHALLENGE_OTP' : 'ALLOW';
 
 // ---------- Local "backend" (in-memory; no server needed) ----------
-const otps = new Map();
+const otps = new Map(); const otpRefs = new Map();
+// Decision log + support overrides, shared with the support console (#admin) via localStorage.
+const store = { get: (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } }, set: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} } };
+Object.assign(THRESHOLDS, store.get('fraudThresholds', {}));
+let lastUser = '', lastRef = '';
+const logEntries = new Map();
+function logDecision(e) { const all = store.get('fraudLog', []); all.unshift(e); store.set('fraudLog', all.slice(0, 300)); logEntries.set(e.ref, e); }
+function updateLog(ref, patch) { const all = store.get('fraudLog', []); const e = all.find((x) => x.ref === ref); if (e) { Object.assign(e, patch); store.set('fraudLog', all); } }
+const PAY_NAMES = ['Shukran Pay', 'Apple Pay', 'Credit/Debit Card', 'Cash On Delivery'];
+const orderCtx = () => {
+  const i = [...document.querySelectorAll('#checkout input[name=pay]')].findIndex((r) => r.checked);
+  return { payment: PAY_NAMES[i] || '-', total: `OMR ${omr(Math.max(0, SHK.orderOmr - shkUsed / SHK.perOmr))}`, shukrans: shkUsed };
+};
+const GEO = { 'Asia/Muscat': 'OM', 'Asia/Dubai': 'AE', 'Asia/Riyadh': 'SA', 'Asia/Kuwait': 'KW', 'Asia/Qatar': 'QA', 'Asia/Bahrain': 'BH', 'Asia/Calcutta': 'IN', 'Asia/Kolkata': 'IN' };
+// Simulated network intel (a real partner returns IP, geo, ASN, reputation): derived from the device id so it is stable per device.
+function netInfo(sig = {}) {
+  const h = [...(sig.deviceId || 'x')].reduce((t, ch) => (t * 31 + ch.charCodeAt(0)) >>> 0, 7);
+  return { ip: `185.${h % 200 + 20}.${(h >> 8) % 250 + 1}.${(h >> 16) % 250 + 1}`, country: GEO[sig.tz] || `Unknown (${sig.tz || 'n/a'})`, asn: 'AS-SIM (simulated)' };
+}
+function buildEntry(o) {
+  const sig = o.signals || {};
+  return { ref: o.ref, ts: o.ts || Date.now(), user: o.user, action: o.action || 'Unknown', score: o.pr.score, decision: o.decision, reasons: o.pr.reasons, rules: o.pr.rules || [], forced: o.pr.forced || '', base: BASE_SCORE,
+    inputs: { email: o.email || '', phone: o.phone || '' }, signals: sig, net: netInfo(sig), deviceId: sig.deviceId || '', sessionId: sig.sessionId || '', thresholds: { ...THRESHOLDS },
+    ctx: o.ctx || null, otp: o.otp ?? (o.decision === 'CHALLENGE_OTP' ? 'sent' : '-'), final: o.final ?? (o.decision === 'CHALLENGE_OTP' ? 'PENDING OTP' : o.decision === 'ALLOW' ? 'ALLOWED' : 'DECLINED'),
+    status: 'open', caseStatus: 'new', notes: [], audit: [], events: o.events || [{ ts: o.ts || Date.now(), text: `Partner scored ${o.pr.score} -> ${o.decision}` }] };
+}
+function logEvent(ref, text) { if (!ref) return; const all = store.get('fraudLog', []), e = all.find((x) => x.ref === ref); if (e) { (e.events = e.events || []).push({ ts: Date.now(), text }); store.set('fraudLog', all); } }
 function signupApi(b) {
-  const pr = partnerScore({ email: b.email, phone: b.phone, signals: b.signals, scenario: b.scenario });
+  const who = b.email || b.phone || lastUser || 'guest';
+  if (b.email || b.phone) lastUser = b.email || b.phone;
+  const sig = b.signals || {};
+  let pr = partnerScore({ email: b.email, phone: b.phone, signals: sig, scenario: b.scenario });
+  const blocked = store.get('fraudBlock', []).find((x) => (x.type === 'user' && x.value === who) || (x.type === 'device' && x.value === sig.deviceId));
+  if (blocked) pr = { score: 95, reasons: [`fraud team blocklist: ${blocked.type} ${blocked.value} (+90)`], rules: [{ id: 'blocklist', label: `fraud team blocklist (${blocked.type})`, desc: 'Entity was blocked by the fraud team', pts: 90, fired: true, input: blocked.value }] };
+  else if (store.get('fraudOverrides', []).includes(who)) pr = { score: 5, reasons: ['support override: customer cleared by support team'], rules: [] };
   const decision = decide(pr.score);
   const out = { decision, score: pr.score, reasons: pr.reasons, thresholds: THRESHOLDS };
+  out.ref = 'FR-' + crypto.randomUUID().slice(0, 6).toUpperCase(); lastRef = out.ref;
+  logDecision(buildEntry({ ref: out.ref, user: who, action: b.action, pr, decision, signals: sig, email: b.email, phone: b.phone, ctx: /^(Payment|Checkout|Shukran)/.test(b.action || '') ? orderCtx() : null }));
   if (decision === 'CHALLENGE_OTP') {
     const sessionId = crypto.randomUUID();
     const code = String(100000 + crypto.getRandomValues(new Uint32Array(1))[0] % 900000);
     otps.set(sessionId, { code, attempts: 0, expires: Date.now() + 5 * 60e3 });
-    out.sessionId = sessionId;
+    out.sessionId = sessionId; otpRefs.set(sessionId, out.ref);
     out.demoOtp = code; // prototype only: real system sends via SMS
+    logEvent(out.ref, 'OTP sent to registered mobile');
   }
   console.log(`[DECISION] ${b.email} score=${pr.score} -> ${decision}`);
   return out;
@@ -359,17 +460,18 @@ function signupApi(b) {
 let otpVerified = false;
 function verifyOtpApi({ sessionId, code }) {
   const s = otps.get(sessionId);
-  if (!s || s.expires < Date.now()) return { decision: 'DECLINE', error: VAGUE };
-  if (++s.attempts > 3) { otps.delete(sessionId); return { decision: 'DECLINE', error: VAGUE }; }
-  if (s.code !== String(code)) return { error: 'Incorrect code', attemptsLeft: 3 - s.attempts };
-  otps.delete(sessionId);
+  const ref = otpRefs.get(sessionId);
+  if (!s || s.expires < Date.now()) { if (ref) updateLog(ref, { otp: 'expired', final: 'DECLINED' }); logEvent(ref, 'OTP expired'); return { decision: 'DECLINE', error: VAGUE }; }
+  if (++s.attempts > 3) { otps.delete(sessionId); updateLog(ref, { otp: 'failed (too many wrong codes)', final: 'DECLINED' }); logEvent(ref, 'OTP locked after 3 wrong codes'); return { decision: 'DECLINE', error: VAGUE }; }
+  if (s.code !== String(code)) { updateLog(ref, { otp: `wrong code (${s.attempts}/3)` }); logEvent(ref, `Wrong OTP entered (${s.attempts}/3)`); return { error: 'Incorrect code', attemptsLeft: 3 - s.attempts }; }
+  otps.delete(sessionId); updateLog(ref, { otp: 'passed', final: 'ALLOWED (OTP passed)' }); logEvent(ref, 'OTP verified');
   otpVerified = true;
   return { decision: 'ALLOW' };
 }
 
 const $ = (s) => document.querySelector(s);
 const card = $('#card'), modal = $('#m');
-const show = (html) => { card.style.width = ''; card.innerHTML = html; modal.classList.add('show'); };
+const show = (html) => { card.style.width = ''; card.innerHTML = html.replace(VAGUE, `${VAGUE}<br><small style="color:#667">Reference: ${lastRef}</small>`); modal.classList.add('show'); };
 const reasons = (r) => r && r.length ? `<ul class="reasons">${r.map(x=>`<li>${x}</li>`).join('')}</ul>` : '';
 const VAGUE = 'Something went wrong on our end. Please try again later or contact customer support.';
 const meta = (d) => !$('#showfraud').checked ? '' : `<span class="badge ${d.decision==='ALLOW'?'allow':d.decision==='DECLINE'?'decline':'challenge'}">Fraud score ${d.score} → ${d.decision}</span>${reasons(d.reasons)}`;
@@ -404,7 +506,10 @@ function challenge(d) {
 function route() {
   const h = location.hash;
   if (!h) { location.replace('#cart'); return; }
-  const signin = !['#signup', '#forgot', '#checkout', '#cart'].includes(h);
+  const signin = !['#signup', '#forgot', '#checkout', '#cart', '#admin', '#fraud'].includes(h);
+  $('#admin').hidden = h !== '#admin'; $('#fraud').hidden = h !== '#fraud'; document.querySelector('.demo').hidden = ['#admin', '#fraud'].includes(h); document.querySelector('body > header').hidden = ['#admin', '#fraud', '#cart', '#checkout'].includes(h);
+  if (h === '#admin' && window.adminReady) renderAdmin();
+  if (h === '#fraud' && window.adminReady) renderFraud();
   $('#cart').hidden = h !== '#cart';
   $('#checkout').hidden = h !== '#checkout';
   $('#signin').hidden = !signin; $('#signup').hidden = h !== '#signup'; $('#forgot-page').hidden = h !== '#forgot';
@@ -417,7 +522,7 @@ document.querySelectorAll('#checkout .opt input[type=radio]').forEach((r) => r.a
   document.querySelectorAll(`#checkout .opt[data-g="${r.closest('.opt').dataset.g}"]`).forEach((o) => o.classList.toggle('on', o.contains(r) && r.checked));
 }));
 $('#paynow').onclick = () => {
-  const d = checkoutRisk();
+  const d = checkoutRisk('Payment (Pay Now)');
   if (d.decision === 'DECLINE') return show(`<h2>⛔ We couldn't process this payment</h2>${meta(d)}<p>Something went wrong on our end. Please try again later or contact customer support.</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
   if (d.decision === 'CHALLENGE_OTP') {
     show(`<h2>🔐 Verify this payment</h2>${meta(d)}<p>Enter the 6-digit code sent to your mobile.<br><small>Demo OTP: <b>${d.demoOtp}</b></small></p>
@@ -434,9 +539,9 @@ $('#paynow').onclick = () => {
 const placed = () => show('<h2>🎉 Order placed</h2><p>Thanks for shopping with homecentre.</p><button class="btn" onclick="modal.classList.remove(\'show\')">Close</button>');
 
 // Transaction fraud check: COD (high-risk for non-payment/fraud) is only offered when the partner says ALLOW.
-function checkoutRisk() {
+function checkoutRisk(action = 'Checkout page (COD eligibility)') {
   const { timeToSubmitMs, ...signals } = FraudSDK.collect();
-  const d = signupApi({ email: '', signals, scenario: $('#scenario').value });
+  const d = signupApi({ email: '', signals, scenario: $('#scenario').value, action });
   const okCod = d.decision === 'ALLOW';
   $('#codopt').classList.toggle('off', !okCod); $('#cod').disabled = !okCod;
   $('#codopt small').textContent = okCod ? 'Processing fee of OMR 1 applicable' : 'not applicable on this order';
@@ -463,7 +568,7 @@ function renderShk() {
   $('#total').textContent = `OMR ${omr(Math.max(0, SHK.orderOmr - shkUsed / SHK.perOmr))}`;
 }
 function redeemWithFraudCheck(points, onOk) {
-  const d = signupApi({ email: '', phone: '', signals: FraudSDK.collect(), scenario: $('#scenario').value });
+  const d = signupApi({ email: '', phone: '', signals: FraudSDK.collect(), scenario: $('#scenario').value, action: 'Shukran redemption' });
   const apply = () => { shkUsed = points; renderShk(); modal.classList.remove('show'); if (onOk) onOk(); };
   if (d.decision === 'ALLOW' || (d.decision === 'CHALLENGE_OTP' && otpVerified)) return apply();
   if (d.decision === 'DECLINE') return show(`<h2>⛔ We couldn't redeem Shukrans</h2>${meta(d)}<p>Something went wrong on our end. Please try again later or contact customer support.</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
@@ -532,7 +637,7 @@ const addrForm = (id, title, btn) => `<form id="${id}" class="afm"><button type=
     <button class="btn" id="${id[0]}ship" style="border-radius:4px">${btn}</button></form>`;
 // Address menu (Make default / Edit / Delete): changing the ship-to is an account-takeover move, so each action uses the same fraud check as Add New Address.
 function guardAddressAction(label, apply) {
-  const d = signupApi({ email: '', phone: '', signals: FraudSDK.collect(), scenario: $('#scenario').value });
+  const d = signupApi({ email: '', phone: '', signals: FraudSDK.collect(), scenario: $('#scenario').value, action: 'Address: ' + label });
   if (d.decision === 'ALLOW' || (d.decision === 'CHALLENGE_OTP' && otpVerified)) return apply();
   if (d.decision === 'DECLINE') return show(`<h2>⛔ We couldn't ${label}</h2>${meta(d)}<p>Something went wrong on our end. Please try again later or contact customer support.</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
   show(`<h2>🔐 Verify it's you</h2>${meta(d)}<p>Enter the 6-digit code sent to your mobile to ${label}.<br><small>Demo OTP: <b>${d.demoOtp}</b></small></p>
@@ -606,7 +711,7 @@ $('#addnew').onclick = (e) => {
       l.querySelector('input').addEventListener('change', () => document.querySelectorAll('#checkout .opt[data-g="addr"]').forEach((o) => o.classList.toggle('on', o === l)));
       modal.classList.remove('show');
     };
-    const d = signupApi({ email: '', phone: '', signals: FraudSDK.collect(), scenario: $('#scenario').value });
+    const d = signupApi({ email: '', phone: '', signals: FraudSDK.collect(), scenario: $('#scenario').value, action: 'Address: add new address' });
     if (d.decision === 'ALLOW' || (d.decision === 'CHALLENGE_OTP' && otpVerified)) return save();
     if (d.decision === 'DECLINE') return show(`<h2>⛔ We couldn't add this address</h2>${meta(d)}<p>Something went wrong on our end. Please try again later or contact customer support.</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
     show(`<h2>🔐 Verify it's you</h2>${meta(d)}<p>Enter the 6-digit code sent to your mobile to add a new address.<br><small>Demo OTP: <b>${d.demoOtp}</b></small></p>
@@ -626,7 +731,7 @@ $('#ff').addEventListener('submit', (e) => {
 });
 function scoreReset() {
   flow = 'reset';
-  const d = signupApi({ email: $('#femail').value.trim(), signals: FraudSDK.collect(), scenario: $('#scenario').value });
+  const d = signupApi({ email: $('#femail').value.trim(), signals: FraudSDK.collect(), scenario: $('#scenario').value, action: 'Forgot password' });
   ({ ALLOW: resetSent, CHALLENGE_OTP: challenge, DECLINE: decline })[d.decision](d);
 }
 $('#fresend').onclick = () => {
@@ -673,9 +778,9 @@ $('#step2').addEventListener('submit', (e) => {
   e.preventDefault();
   flow = 'signin';
   const v = $('#rid').value;
-  const d = signupApi({ email: useMobile ? '' : v, phone: useMobile ? v : '', signals: FraudSDK.collect(), scenario: $('#scenario').value });
+  const d = signupApi({ email: useMobile ? '' : v, phone: useMobile ? v : '', signals: FraudSDK.collect(), scenario: $('#scenario').value, action: 'Sign in' });
   // An OTP login always challenges unless the fraud decision is a decline.
-  if (tab === 'otp' && d.decision === 'ALLOW') { const o = signupApi({ ...{}, email: '', scenario: 'medium' }); return challenge({ ...d, sessionId: o.sessionId, demoOtp: o.demoOtp }); }
+  if (tab === 'otp' && d.decision === 'ALLOW') { const o = signupApi({ ...{}, email: '', scenario: 'medium', action: 'Sign in (OTP login)' }); return challenge({ ...d, sessionId: o.sessionId, demoOtp: o.demoOtp }); }
   ({ ALLOW: success, CHALLENGE_OTP: challenge, DECLINE: decline })[d.decision](d);
 });
 
@@ -706,10 +811,149 @@ $('#f').addEventListener('submit', async (e) => {
   if (f.password !== f.confirm) { $('#ferr').textContent = 'Passwords do not match'; return; }
   $('#ferr').textContent = ''; $('#submit').disabled = true;
   try {
-    const d = signupApi({ ...f, signals: FraudSDK.collect(), scenario: $('#scenario').value });
+    const d = signupApi({ ...f, signals: FraudSDK.collect(), scenario: $('#scenario').value, action: 'Sign up' });
     ({ ALLOW: success, CHALLENGE_OTP: challenge, DECLINE: decline })[d.decision](d);
   } finally { $('#submit').disabled = false; }
 });
+
+// ---------- Support console (#admin): lets agents explain a customer's blocked/challenged attempt ----------
+const esc = (x) => String(x ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const PILL = { ALLOW: ['pAL', 'Allowed'], CHALLENGE_OTP: ['pCH', 'OTP challenge'], DECLINE: ['pDE', 'Declined'] };
+const GUIDE = {
+  DECLINE: ['Tell the customer: "I can see your attempt did not go through for security reasons. I\'m not able to share more details, but I can help you complete your order another way."', 'Offer a safe alternative: retry later, another payment method, or in-store / verified phone order. Escalate to the fraud team if the customer disputes it.'],
+  CHALLENGE_OTP: ['Tell the customer: "We sent a one-time code to your registered mobile number as an extra security check. Please enter it to continue."', 'If the code never arrived or was entered wrongly 3 times, the attempt is locked. Verify identity by phone, then use "Clear customer for retry".'],
+  ALLOW: ['This attempt was approved automatically, so the issue is probably not a fraud block. Check payment gateway, stock, or address errors.', 'If Cash on Delivery was missing, look for a non-allowed Checkout entry for the same customer.'],
+};
+let selRef = '';
+function renderAdmin() {
+  const all = store.get('fraudLog', []), q = $('#aq').value.trim().toLowerCase(), dec = $('#adec').value;
+  const rows = all.filter((e) => (!dec || e.decision === dec) && (!q || [e.ref, e.user, e.action].some((v) => String(v).toLowerCase().includes(q))));
+  $('#arows').innerHTML = rows.map((e) => `<tr class="rw2${e.ref === selRef ? ' sel' : ''}" data-ref="${esc(e.ref)}"><td>${new Date(e.ts).toLocaleString()}</td><td><b>${esc(e.ref)}</b></td><td>${esc(e.user)}</td><td>${esc(e.action)}</td><td>${esc(e.ctx ? e.ctx.payment : '-')}</td><td>${e.score}</td><td><span class="pill2 ${PILL[e.decision][0]}">${PILL[e.decision][1]}</span></td><td>${esc(e.final)}</td></tr>`).join('');
+  $('#aempty').hidden = rows.length > 0;
+  const e = all.find((x) => x.ref === selRef);
+  if (!e) return;
+  const cleared = store.get('fraudOverrides', []).includes(e.user);
+  $('#adetail').innerHTML = `<h3>${esc(e.ref)} <span class="pill2 ${PILL[e.decision][0]}">${PILL[e.decision][1]}</span></h3>
+    <div class="anote">${new Date(e.ts).toLocaleString()} &middot; ${esc(e.user)} &middot; ${esc(e.action)}</div>
+    ${e.ctx ? `<h4>Order details</h4><div>Payment method selected: <b>${esc(e.ctx.payment)}</b><br>Order total: <b>${esc(e.ctx.total)}</b>${e.ctx.shukrans ? `<br>Shukrans applied: <b>${e.ctx.shukrans}</b>` : ''}</div>` : ''}
+    <h4>What the customer saw</h4><div>${e.decision === 'DECLINE' || /DECLINED/.test(e.final) ? 'Generic message: "Something went wrong on our end&hellip;" with this reference.' : e.decision === 'CHALLENGE_OTP' ? 'An OTP prompt to their mobile.' : 'Nothing &mdash; the action was allowed.'}</div>
+    <h4>Partner fraud score</h4><div><b>${e.score}</b> / 100 &nbsp;(allow &lt;${THRESHOLDS.challenge}, OTP ${THRESHOLDS.challenge}&ndash;${THRESHOLDS.decline - 1}, decline &ge;${THRESHOLDS.decline})</div>
+    <h4>Why (internal)</h4><ul>${e.reasons.map((r) => `<li>${esc(r)}</li>`).join('')}</ul>
+    <h4>OTP / final outcome</h4><div>OTP: ${esc(e.otp)} &middot; Final: <b>${esc(e.final)}</b></div>
+    <h4>Suggested talk track</h4><div class="script">${GUIDE[e.decision][0]}</div><p style="font-size:13px;margin:8px 0 0">${GUIDE[e.decision][1]}</p>
+    <div class="donot"><b>Never disclose</b> the score, thresholds or reasons to the customer &mdash; it helps fraudsters tune their attempts.</div>
+    <h4>Actions</h4><div class="atools" style="margin:0"><button class="abtn p" id="aclr">${cleared ? 'Customer already cleared' : 'Clear customer for retry'}</button><button class="abtn" id="aesc">Escalate to fraud team</button></div>
+    <div class="anote">Status: <b>${esc(e.status)}</b>${cleared ? ' &middot; next attempts by this customer are allowed (undo below)' : ''}</div>${cleared ? '<button class="abtn" id="aundo" style="margin-top:8px">Remove clearance</button>' : ''}`;
+  const setStatus = (st) => { updateLog(e.ref, { status: st }); renderAdmin(); };
+  $('#aesc').onclick = () => setStatus('escalated to fraud team');
+  $('#aclr').onclick = () => { if (!cleared) store.set('fraudOverrides', [...store.get('fraudOverrides', []), e.user]); setStatus('customer cleared for retry'); };
+  if ($('#aundo')) $('#aundo').onclick = () => { store.set('fraudOverrides', store.get('fraudOverrides', []).filter((u) => u !== e.user)); setStatus('clearance removed'); };
+}
+$('#arows').addEventListener('click', (ev) => { const tr = ev.target.closest('tr'); if (tr) { selRef = tr.dataset.ref; renderAdmin(); } });
+$('#aq').oninput = $('#adec').onchange = renderAdmin;
+$('#aclear').onclick = () => { store.set('fraudLog', []); selRef = ''; $('#adetail').innerHTML = '<b>Select a decision</b>'; renderAdmin(); };
+function loadSamples() {
+  const now = Date.now();
+  const dev = (id, over = {}) => ({ deviceId: id, sessionId: 'SS-' + id.slice(3), tz: 'Asia/Muscat', ua: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/126', screen: '1440x900', lang: 'en-US', platform: 'MacIntel', cores: 8, touch: false, cookies: true, referrer: 'direct', webdriver: false, pasted: false, vpnLikely: false, timeToSubmitMs: 42000, ...over });
+  const bot = dev('DV-A1B2C3D4', { webdriver: true, pasted: true, vpnLikely: true, timeToSubmitMs: 1800, tz: 'Europe/Kiev', ua: 'Mozilla/5.0 (X11; Linux x86_64) HeadlessChrome/126', platform: 'Linux x86_64', screen: '800x600', cores: 2, referrer: 'https://paste.example/leaked-creds' });
+  const mk = (i, user, action, o, extra = {}) => {
+    const pr = o.pr || partnerScore({ email: o.email ?? user, phone: o.phone || '', signals: o.signals });
+    const decision = decide(pr.score);
+    return { ...buildEntry({ ref: 'FR-S' + (100 + i), ts: now - i * 36e5, user, action, pr, decision, signals: o.signals, email: o.email ?? (user.includes('@') ? user : ''), phone: o.phone, ctx: o.payment ? { payment: o.payment, total: 'OMR 12.1', shukrans: o.shukrans || 0 } : null, otp: o.otp, final: o.final }), ...extra };
+  };
+  const rows = [
+    mk(1, 'aisha@example.com', 'Payment (Pay Now)', { signals: bot, payment: 'Credit/Debit Card' }),
+    mk(2, 'omar@example.com', 'Address: add new address', { signals: dev('DV-5E6F7A8B', { vpnLikely: true, timeToSubmitMs: 2500 }), otp: 'passed', final: 'ALLOWED (OTP passed)' }),
+    mk(3, 'test@mailinator.com', 'Sign up', { signals: dev('DV-9C0D1E2F', { pasted: true }), otp: 'failed (too many wrong codes)', final: 'DECLINED' }),
+    mk(4, 'layla@example.com', 'Checkout page (COD eligibility)', { signals: dev('DV-3A4B5C6D', { vpnLikely: true, timeToSubmitMs: 3000 }), payment: 'Cash On Delivery' }),
+    mk(5, 'sara@example.com', 'Shukran redemption', { signals: dev('DV-7E8F9A0B'), payment: 'Shukran Pay', shukrans: 2420 }),
+    mk(6, 'noor@example.com', 'Sign up', { signals: { ...bot, timeToSubmitMs: 2100 }, phone: '4412345' }, { ts: now - 36e5 * 6 }),
+    mk(7, 'aisha@example.com', 'Address: update this address', { signals: { ...bot, timeToSubmitMs: 3500 } }, { ts: now - 36e5 * 7 }),
+  ];
+  store.set('fraudLog', rows.concat(store.get('fraudLog', []).filter((x) => !/^FR-S1\d\d$/.test(x.ref))));
+  renderAdmin(); if (window.renderFraud) renderFraud();
+}
+$('#asample').onclick = loadSamples;
+// ---------- Fraud operations console (#fraud): full scoring inputs, entity linking, case management ----------
+let fSel = '', fTab = 'dec';
+const fmtT = (t) => new Date(t).toLocaleString();
+function fAudit(ref, text) { const all = store.get('fraudLog', []), e = all.find((x) => x.ref === ref); if (e) { (e.audit = e.audit || []).push({ ts: Date.now(), text }); store.set('fraudLog', all); } }
+function fPatch(ref, patch) { const all = store.get('fraudLog', []), e = all.find((x) => x.ref === ref); if (e) { Object.assign(e, patch); store.set('fraudLog', all); } }
+function fraudKpis(all) {
+  const n = all.length, pct = (k) => n ? Math.round(100 * all.filter((e) => e.decision === k).length / n) + '%' : '-';
+  const otp = all.filter((e) => e.decision === 'CHALLENGE_OTP'), pass = otp.filter((e) => /passed/.test(e.otp)).length;
+  const bins = Array(10).fill(0); all.forEach((e) => bins[Math.min(9, Math.floor(e.score / 10))]++); const mx = Math.max(1, ...bins);
+  $('#fkpis').innerHTML = `<div class="kpi"><b>${n}</b><span>Decisions</span></div><div class="kpi"><b>${pct('DECLINE')}</b><span>Decline rate</span></div><div class="kpi"><b>${pct('CHALLENGE_OTP')}</b><span>OTP rate</span></div><div class="kpi"><b>${otp.length ? Math.round(100 * pass / otp.length) + '%' : '-'}</b><span>OTP pass rate</span></div><div class="kpi"><b>${n ? Math.round(all.reduce((t, e) => t + e.score, 0) / n) : '-'}</b><span>Average score</span></div><div class="kpi" style="flex:2;min-width:340px"><span><b style="display:inline;font-size:13px;color:#1f2937">Decisions by fraud score</b><br>0 = safe, 100 = risky</span><div class="hist">${bins.map((b, i) => `<div class="hc" title="Score ${i * 10}-${i * 10 + 9}: ${b} decision(s)"><em>${b || ''}</em><i style="height:${Math.max(3, 100 * b / mx)}%;background:${i * 10 >= THRESHOLDS.decline ? '#c62828' : i * 10 >= THRESHOLDS.challenge ? '#e08a00' : '#2e7d32'}"></i><u>${i * 10}</u></div>`).join('')}</div><div class="hleg"><span style="color:#2e7d32">&#9632; Allow (below ${THRESHOLDS.challenge})</span><span style="color:#e08a00">&#9632; OTP (${THRESHOLDS.challenge}-${THRESHOLDS.decline - 1})</span><span style="color:#c62828">&#9632; Decline (${THRESHOLDS.decline}+)</span></div></div>`;
+}
+function fraudDetail(e, all) {
+  const sig = e.signals || {}, net = e.net || {}, th = e.thresholds || THRESHOLDS;
+  const sameDev = e.deviceId ? [...new Set(all.filter((x) => x.deviceId === e.deviceId && x.user !== e.user).map((x) => x.user))] : [];
+  const mine = all.filter((x) => x.user === e.user), devs = [...new Set(mine.map((x) => x.deviceId).filter(Boolean))];
+  const bl = store.get('fraudBlock', []), uBl = bl.some((x) => x.type === 'user' && x.value === e.user), dBl = e.deviceId && bl.some((x) => x.type === 'device' && x.value === e.deviceId);
+  const fired = (e.rules || []).filter((r) => r.fired), pct = Math.min(100, e.score);
+  const kv = (o) => `<div class="kv">${Object.entries(o).map(([k, v]) => `<span>${esc(k)}</span><span>${esc(v)}</span>`).join('')}</div>`;
+  return `<h3>${esc(e.ref)} <span class="pill2 ${PILL[e.decision][0]}">${PILL[e.decision][1]}</span></h3><div class="anote" style="margin:0">${esc(fmtT(e.ts))} &middot; ${esc(e.action)}</div>
+  <h4>Score breakdown</h4><div class="bar"><i style="left:calc(${pct}% - 2px)"></i></div><div class="anote" style="margin:0">Score <b>${e.score}</b> &middot; OTP at ${th.challenge}+ &middot; decline at ${th.decline}+</div>
+  <table class="rt"><tr><td>Base score</td><td></td><td>+${e.base ?? BASE_SCORE}</td></tr>${fired.map((r) => `<tr><td>${esc(r.label)}</td><td>${esc(r.input)}</td><td>+${r.pts}</td></tr>`).join('')}${e.forced ? `<tr><td colspan="3">Forced demo scenario: ${esc(e.forced)}</td></tr>` : ''}</table>
+  <h4>All rules evaluated</h4><table class="rt">${(e.rules || []).map((r) => `<tr class="${r.fired ? '' : 'off'}"><td>${r.fired ? '&#9679;' : '&#9675;'} ${esc(r.id)}</td><td>${esc(r.input)}</td><td>${r.fired ? '+' + r.pts : '0'}</td></tr>`).join('') || `<tr><td colspan="3">No rules evaluated: ${e.forced ? 'forced demo scenario' : 'support override or blocklist'}</td></tr>`}</table>
+  <h4>Inputs to partner</h4>${kv({ Email: e.inputs?.email || '-', Mobile: e.inputs?.phone || '-', 'Time to submit': sig.timeToSubmitMs != null ? sig.timeToSubmitMs + ' ms' : '-', 'Pasted values': String(!!sig.pasted), 'Automation flag': String(!!sig.webdriver), 'VPN / proxy': String(!!sig.vpnLikely) })}
+  <h4>Device &amp; network</h4>${kv({ 'Device ID': e.deviceId || '-', 'Session ID': e.sessionId || '-', 'User agent': sig.ua || '-', Platform: sig.platform || '-', Screen: sig.screen || '-', Language: sig.lang || '-', Timezone: sig.tz || '-', 'CPU cores': sig.cores ?? '-', Touch: String(!!sig.touch), Cookies: String(!!sig.cookies), Referrer: sig.referrer || '-', 'IP (simulated)': net.ip || '-', 'Geo (simulated)': net.country || '-', ASN: net.asn || '-' })}
+  <h4>Customer context</h4>${kv({ User: e.user, 'Decisions': mine.length, Declined: mine.filter((x) => x.decision === 'DECLINE').length, 'OTP challenged': mine.filter((x) => x.decision === 'CHALLENGE_OTP').length, 'First seen': fmtT(Math.min(...mine.map((x) => x.ts))), 'Last seen': fmtT(Math.max(...mine.map((x) => x.ts))), 'Devices used': devs.join(', ') || '-', 'Other users on this device': sameDev.join(', ') || 'none' })}
+  ${sameDev.length ? `<div class="warn2">Device shared with ${sameDev.length} other account(s): possible account farming or takeover.</div>` : ''}
+  ${e.ctx ? `<h4>Order</h4>${kv({ 'Payment method': e.ctx.payment, Total: e.ctx.total, Shukrans: e.ctx.shukrans })}` : ''}
+  <h4>Outcome &amp; timeline</h4>${kv({ 'OTP result': e.otp, 'Final outcome': e.final })}<ul class="tl" style="margin-top:8px">${(e.events || []).map((v) => `<li>${esc(fmtT(v.ts))} &mdash; ${esc(v.text)}</li>`).join('')}</ul>
+  <h4>Case management</h4><select id="fcs" class="abtn">${['new', 'investigating', 'confirmed fraud', 'false positive', 'closed'].map((c) => `<option ${c === (e.caseStatus || 'new') ? 'selected' : ''}>${c}</option>`).join('')}</select>
+  <div style="margin-top:8px"><textarea class="fnote" id="fnote" rows="2" placeholder="Add investigation note"></textarea><button class="abtn" id="fnoteb" style="margin-top:6px">Add note</button></div>
+  ${(e.notes || []).map((n) => `<div class="script" style="margin-top:6px">${esc(n.text)}<div class="anote" style="margin:2px 0 0">${esc(fmtT(n.ts))}</div></div>`).join('')}
+  <h4>Actions</h4><button class="abtn p" id="fbu">${uBl ? 'Unblock user' : 'Block user'}</button> <button class="abtn p" id="fbd" ${e.deviceId ? '' : 'disabled'}>${dBl ? 'Unblock device' : 'Block device'}</button> <button class="abtn" id="fal">Allowlist (clear) user</button>
+  <h4>Audit trail</h4><ul class="tl">${(e.audit || []).map((v) => `<li>${esc(fmtT(v.ts))} &mdash; ${esc(v.text)}</li>`).join('') || '<li>No analyst actions yet</li>'}</ul>`;
+}
+function renderFraud() {
+  if (store.get('fraudLog', []).some((x) => /^FR-S1\d\d$/.test(x.ref) && !x.signals)) { loadSamples(); return; }
+  const all = store.get('fraudLog', []); fraudKpis(all);
+  document.querySelectorAll('#ftabs button').forEach((b) => b.classList.toggle('on', b.dataset.t === fTab));
+  $('#fdec').hidden = fTab !== 'dec'; $('#flists').hidden = fTab !== 'lists'; $('#frules').hidden = fTab !== 'rules';
+  if (fTab === 'dec') {
+    const q = $('#fq').value.toLowerCase(), d = $('#fdecsel').value, cs = $('#fcase').value;
+    const rows = all.filter((e) => (!d || e.decision === d) && (!cs || (e.caseStatus || 'new') === cs) && (!q || [e.ref, e.user, e.deviceId, e.action, e.net?.ip].join(' ').toLowerCase().includes(q)));
+    $('#frows').innerHTML = rows.map((e) => `<tr class="rw2 ${e.ref === fSel ? 'sel' : ''}" data-ref="${e.ref}"><td>${esc(fmtT(e.ts))}</td><td>${esc(e.ref)}</td><td>${esc(e.user)}</td><td>${esc(e.action)}</td><td>${e.score}</td><td><span class="pill2 ${PILL[e.decision][0]}">${PILL[e.decision][1]}</span></td><td>${esc(e.caseStatus || 'new')}</td></tr>`).join('') || '<tr><td colspan="7">No decisions yet. Use the shop, or Load sample data.</td></tr>';
+    const e = all.find((x) => x.ref === fSel);
+    $('#fdetail').innerHTML = e ? fraudDetail(e, all) : '<b>Select a decision</b><p class="anote">Full scoring inputs, device, network and case tools appear here.</p>';
+  }
+  if (fTab === 'lists') {
+    const bl = store.get('fraudBlock', []), ov = store.get('fraudOverrides', []);
+    $('#flists').innerHTML = `<div class="atable" style="min-width:0;padding:14px"><h4>Blocklist (forces decline)</h4>${bl.map((b, i) => `<div>${esc(b.type)}: <b>${esc(b.value)}</b> <button class="abtn" data-unb="${i}">Remove</button></div>`).join('') || '<p class="anote">Empty</p>'}<h4>Allowlist (support cleared)</h4>${ov.map((u, i) => `<div><b>${esc(u)}</b> <button class="abtn" data-unal="${i}">Remove</button></div>`).join('') || '<p class="anote">Empty</p>'}</div>`;
+  }
+  if (fTab === 'rules') {
+    const o = store.get('fraudRules', {});
+    $('#frules').innerHTML = `<div class="atable" style="min-width:0;padding:14px"><h4>Rule weights</h4><table class="rt">${RULES.map((r) => `<tr><td><b>${esc(r.id)}</b><div class="anote" style="margin:0">${esc(r.desc)}</div></td><td><input type="number" min="0" max="100" data-rule="${r.id}" value="${o[r.id] ?? r.pts}" style="width:70px"></td></tr>`).join('')}</table><h4>Thresholds</h4>OTP at <input type="number" id="thc" value="${THRESHOLDS.challenge}" style="width:70px"> Decline at <input type="number" id="thd" value="${THRESHOLDS.decline}" style="width:70px"><div style="margin-top:12px"><button class="abtn p" id="rsave">Save</button> <button class="abtn" id="rreset">Reset to defaults</button></div><p class="anote">Changes apply to new decisions immediately.</p></div>`;
+  }
+}
+$('#fq').oninput = $('#fdecsel').onchange = $('#fcase').onchange = renderFraud;
+$('#fsample').onclick = loadSamples;
+$('#ftabs').addEventListener('click', (ev) => { if (ev.target.dataset.t) { fTab = ev.target.dataset.t; renderFraud(); } });
+$('#frows').addEventListener('click', (ev) => { const tr = ev.target.closest('tr'); if (tr?.dataset.ref) { fSel = tr.dataset.ref; renderFraud(); } });
+$('#fdetail').addEventListener('click', (ev) => {
+  const id = ev.target.id, e = store.get('fraudLog', []).find((x) => x.ref === fSel); if (!e) return;
+  const toggle = (type, value) => { let bl = store.get('fraudBlock', []); const had = bl.some((x) => x.type === type && x.value === value); bl = had ? bl.filter((x) => !(x.type === type && x.value === value)) : bl.concat({ type, value }); store.set('fraudBlock', bl); fAudit(fSel, `${had ? 'Unblocked' : 'Blocked'} ${type} ${value}`); };
+  if (id === 'fbu') toggle('user', e.user); else if (id === 'fbd') toggle('device', e.deviceId);
+  else if (id === 'fal') { const ov = store.get('fraudOverrides', []); if (!ov.includes(e.user)) store.set('fraudOverrides', ov.concat(e.user)); fAudit(fSel, `Allowlisted ${e.user}`); }
+  else if (id === 'fnoteb') { const t = $('#fnote').value.trim(); if (!t) return; fPatch(fSel, { notes: (e.notes || []).concat({ ts: Date.now(), text: t }) }); fAudit(fSel, 'Added note'); }
+  else return;
+  renderFraud();
+});
+$('#fdetail').addEventListener('change', (ev) => { if (ev.target.id === 'fcs') { fPatch(fSel, { caseStatus: ev.target.value }); fAudit(fSel, `Case status set to ${ev.target.value}`); renderFraud(); } });
+$('#flists').addEventListener('click', (ev) => {
+  const d = ev.target.dataset; if (d.unb != null) store.set('fraudBlock', store.get('fraudBlock', []).filter((_, i) => i !== +d.unb)); else if (d.unal != null) store.set('fraudOverrides', store.get('fraudOverrides', []).filter((_, i) => i !== +d.unal)); else return; renderFraud();
+});
+$('#frules').addEventListener('click', (ev) => {
+  if (ev.target.id === 'rsave') {
+    const o = {}; document.querySelectorAll('[data-rule]').forEach((i) => { o[i.dataset.rule] = +i.value; });
+    store.set('fraudRules', o); const t = { challenge: +$('#thc').value, decline: +$('#thd').value }; store.set('fraudThresholds', t); Object.assign(THRESHOLDS, t);
+  } else if (ev.target.id === 'rreset') { localStorage.removeItem('fraudRules'); localStorage.removeItem('fraudThresholds'); THRESHOLDS.challenge = 30; THRESHOLDS.decline = 70; } else return;
+  renderFraud();
+});
+window.adminReady = true; if (location.hash === '#admin') renderAdmin(); if (location.hash === '#fraud') renderFraud();
 </script>
 </body>
 </html>
