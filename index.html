@@ -294,7 +294,7 @@
     <option value="high">Force high risk (91)</option>
   </select>
   <label style="display:block;margin-top:8px;font-weight:400"><input type="checkbox" id="showfraud" style="width:auto"> Show fraud score in popups (internal)</label>
-  <div style="margin-top:8px;color:#aaa">Allow &lt;30 · OTP 30–69 · Decline ≥70.<br>Tip: a @mailinator.com email scores high on its own.</div>
+  <div style="margin-top:8px;color:#aaa">Allow &lt;30 · OTP 30–69 · Decline ≥70.<br>Tip: @mailinator.com scores 45 (OTP challenge); @blocked.test scores 75 (decline).</div>
 </div>
 
 <div class="modal" id="m"><div class="card" id="card"></div></div>
@@ -327,6 +327,7 @@ function partnerScore({ email = '', phone = '', signals = {}, scenario }) {
     return { score: { low: 12, medium: 52, high: 91 }[scenario], reasons: [`forced demo scenario: ${scenario}`] };
   }
   const domain = email.split('@')[1] || '';
+  if (/(^|\.)blocked\.test$/i.test(domain)) add(70, 'email domain on partner blocklist');
   if (/mailinator|tempmail|10minutemail|guerrilla|yopmail/i.test(domain)) add(40, 'disposable email domain');
   if (/\d{5,}/.test(email.split('@')[0])) add(10, 'email local-part has long digit run');
   if (signals.webdriver) add(35, 'automation/headless browser detected');
