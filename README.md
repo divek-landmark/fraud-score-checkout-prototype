@@ -2,7 +2,9 @@
 
 Homecentre-style sign-up page that calls a (mock) partner fraud-score API and acts on the score.
 
-Run: just open `index.html` in a browser (no Node/server needed).
+**Live demo:** https://divek-landmark.github.io/fraud-score-checkout-prototype/
+
+Run locally: open `index.html` in a browser (no Node/server needed).
 
 | Score | Action |
 |-------|--------|
@@ -10,9 +12,18 @@ Run: just open `index.html` in a browser (no Node/server needed).
 | 30–69 | Challenge with OTP (shown in modal) |
 | ≥ 70  | Decline |
 
-Everything is in one file: a mock partner SDK (signal collection), a mock partner scoring function, the decision engine, and an in-memory OTP check (3 attempts, 5 min expiry). Replace `partnerScore` with a real vendor API call to productionise.
+Everything is in one file: a mock partner SDK (signal collection), a rule-based mock partner scoring function, the decision engine, and an in-memory OTP check (3 attempts, 5 min expiry). Replace `partnerScore` with a real vendor API call to productionise.
 
-Use the demo panel on the page to force low/medium/high, or try a `@mailinator.com` email.
+## Customer journey
+
+Starts at the cart (`#cart`), then sign in / sign up / forgot password, then checkout and payment. Fraud checks run on sign-in, sign-up, forgot password, add/edit/delete/default address, Shukran redemption, checkout load (Cash on Delivery is greyed out unless the decision is Allow) and Pay Now.
+
+- OTP is verified once per session; medium-risk address and Shukran steps then skip it. Pay Now always re-challenges. High risk always declines.
+- Declines never reveal the reason: customers see a vague "Something went wrong" message plus a reference code.
+
+## Demo controls
+
+Use the demo panel to force low/medium/high, or use emails: `@mailinator.com` scores 45 (OTP), `@blocked.test` scores 75 (decline). Tick "show fraud score" to display scores in popups. Run the tests with `cd tests && npm install && npm test`.
 
 ## Support console
 
