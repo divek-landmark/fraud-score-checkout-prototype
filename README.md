@@ -14,6 +14,20 @@ Run locally: open `index.html` in a browser (no Node/server needed).
 
 Everything is in one file: a mock partner SDK (signal collection), a rule-based mock partner scoring function, the decision engine, and an in-memory OTP check (3 attempts, 5 min expiry). Replace `partnerScore` with a real vendor API call to productionise.
 
+## Screenshots
+
+| Cart (journey start) | Checkout |
+|---|---|
+| ![Cart](docs/cart.png) | ![Checkout](docs/checkout.png) |
+
+| OTP challenge (medium risk) | Vague decline (high risk) |
+|---|---|
+| ![OTP](docs/otp-modal.png) | ![Decline](docs/decline-modal.png) |
+
+| Support console | Fraud ops console |
+|---|---|
+| ![Support](docs/support-console.png) | ![Fraud ops](docs/fraud-console.png) |
+
 ## Customer journey
 
 Starts at the cart (`#cart`), then sign in / sign up / forgot password, then checkout and payment. Fraud checks run on sign-in, sign-up, forgot password, add/edit/delete/default address, Shukran redemption, checkout load (Cash on Delivery is greyed out unless the decision is Allow) and Pay Now.
