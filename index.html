@@ -293,6 +293,7 @@
     <option value="medium">Force medium risk (52)</option>
     <option value="high">Force high risk (91)</option>
   </select>
+  <label style="display:block;margin-top:8px;font-weight:400"><input type="checkbox" id="showfraud" style="width:auto"> Show fraud score in popups (internal)</label>
   <div style="margin-top:8px;color:#aaa">Allow &lt;30 · OTP 30–69 · Decline ≥70.<br>Tip: a @mailinator.com email scores high on its own.</div>
 </div>
 
@@ -357,8 +358,8 @@ function signupApi(b) {
 let otpVerified = false;
 function verifyOtpApi({ sessionId, code }) {
   const s = otps.get(sessionId);
-  if (!s || s.expires < Date.now()) return { decision: 'DECLINE', error: 'OTP expired' };
-  if (++s.attempts > 3) { otps.delete(sessionId); return { decision: 'DECLINE', error: 'Too many attempts' }; }
+  if (!s || s.expires < Date.now()) return { decision: 'DECLINE', error: VAGUE };
+  if (++s.attempts > 3) { otps.delete(sessionId); return { decision: 'DECLINE', error: VAGUE }; }
   if (s.code !== String(code)) return { error: 'Incorrect code', attemptsLeft: 3 - s.attempts };
   otps.delete(sessionId);
   otpVerified = true;
@@ -369,7 +370,8 @@ const $ = (s) => document.querySelector(s);
 const card = $('#card'), modal = $('#m');
 const show = (html) => { card.style.width = ''; card.innerHTML = html; modal.classList.add('show'); };
 const reasons = (r) => r && r.length ? `<ul class="reasons">${r.map(x=>`<li>${x}</li>`).join('')}</ul>` : '';
-const meta = (d) => `<span class="badge ${d.decision==='ALLOW'?'allow':d.decision==='DECLINE'?'decline':'challenge'}">Fraud score ${d.score} → ${d.decision}</span>${reasons(d.reasons)}`;
+const VAGUE = 'Something went wrong on our end. Please try again later or contact customer support.';
+const meta = (d) => !$('#showfraud').checked ? '' : `<span class="badge ${d.decision==='ALLOW'?'allow':d.decision==='DECLINE'?'decline':'challenge'}">Fraud score ${d.score} → ${d.decision}</span>${reasons(d.reasons)}`;
 
 let flow = 'signup';
 function resetSent() {
@@ -382,7 +384,7 @@ function success(d) {
   $('#tocheckout').onclick = () => { signedIn = true; modal.classList.remove('show'); location.hash = '#checkout'; };
 }
 function decline(d, msg) {
-  show(`<h2>⛔ ${flow === 'reset' ? "We couldn't process your request" : flow === 'signin' ? "We couldn't sign you in" : "We couldn't create your account"}</h2>${d ? meta(d) : ''}<p>${msg || 'For your security, this request was declined. Please contact support if you think this is a mistake.'}</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
+  show(`<h2>⛔ ${flow === 'reset' ? "We couldn't process your request" : flow === 'signin' ? "We couldn't sign you in" : "We couldn't create your account"}</h2>${d ? meta(d) : ''}<p>${msg || 'Something went wrong on our end. Please try again later or contact customer support.'}</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
 }
 function challenge(d) {
   show(`<h2>🔐 Verify it's you</h2>${meta(d)}
@@ -415,7 +417,7 @@ document.querySelectorAll('#checkout .opt input[type=radio]').forEach((r) => r.a
 }));
 $('#paynow').onclick = () => {
   const d = checkoutRisk();
-  if (d.decision === 'DECLINE') return show(`<h2>⛔ We couldn't process this payment</h2>${meta(d)}<p>For your security, this order was declined. Please contact support if you think this is a mistake.</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
+  if (d.decision === 'DECLINE') return show(`<h2>⛔ We couldn't process this payment</h2>${meta(d)}<p>Something went wrong on our end. Please try again later or contact customer support.</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
   if (d.decision === 'CHALLENGE_OTP') {
     show(`<h2>🔐 Verify this payment</h2>${meta(d)}<p>Enter the 6-digit code sent to your mobile.<br><small>Demo OTP: <b>${d.demoOtp}</b></small></p>
       <input class="otp" id="otp" maxlength="6" inputmode="numeric"><div class="err" id="oerr"></div><button class="btn" id="vbtn">Verify &amp; Pay</button>`);
@@ -463,7 +465,7 @@ function redeemWithFraudCheck(points, onOk) {
   const d = signupApi({ email: '', phone: '', signals: FraudSDK.collect(), scenario: $('#scenario').value });
   const apply = () => { shkUsed = points; renderShk(); modal.classList.remove('show'); if (onOk) onOk(); };
   if (d.decision === 'ALLOW' || (d.decision === 'CHALLENGE_OTP' && otpVerified)) return apply();
-  if (d.decision === 'DECLINE') return show(`<h2>⛔ We couldn't redeem Shukrans</h2>${meta(d)}<p>For your security, this request was declined. Please contact support if you think this is a mistake.</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
+  if (d.decision === 'DECLINE') return show(`<h2>⛔ We couldn't redeem Shukrans</h2>${meta(d)}<p>Something went wrong on our end. Please try again later or contact customer support.</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
   show(`<h2>🔐 Verify it's you</h2>${meta(d)}<p>Enter the 6-digit code sent to your mobile to redeem ${points} Shukrans.<br><small>Demo OTP: <b>${d.demoOtp}</b></small></p>
     <input class="otp" id="otp" maxlength="6" inputmode="numeric"><div class="err" id="oerr"></div><button class="btn" id="vbtn">Verify</button>`);
   $('#vbtn').onclick = () => {
@@ -531,7 +533,7 @@ const addrForm = (id, title, btn) => `<form id="${id}" class="afm"><button type=
 function guardAddressAction(label, apply) {
   const d = signupApi({ email: '', phone: '', signals: FraudSDK.collect(), scenario: $('#scenario').value });
   if (d.decision === 'ALLOW' || (d.decision === 'CHALLENGE_OTP' && otpVerified)) return apply();
-  if (d.decision === 'DECLINE') return show(`<h2>⛔ We couldn't ${label}</h2>${meta(d)}<p>For your security, this request was declined. Please contact support if you think this is a mistake.</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
+  if (d.decision === 'DECLINE') return show(`<h2>⛔ We couldn't ${label}</h2>${meta(d)}<p>Something went wrong on our end. Please try again later or contact customer support.</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
   show(`<h2>🔐 Verify it's you</h2>${meta(d)}<p>Enter the 6-digit code sent to your mobile to ${label}.<br><small>Demo OTP: <b>${d.demoOtp}</b></small></p>
     <input class="otp" id="otp" maxlength="6" inputmode="numeric"><div class="err" id="oerr"></div><button class="btn" id="vbtn">Verify</button>`);
   $('#vbtn').onclick = () => {
@@ -605,7 +607,7 @@ $('#addnew').onclick = (e) => {
     };
     const d = signupApi({ email: '', phone: '', signals: FraudSDK.collect(), scenario: $('#scenario').value });
     if (d.decision === 'ALLOW' || (d.decision === 'CHALLENGE_OTP' && otpVerified)) return save();
-    if (d.decision === 'DECLINE') return show(`<h2>⛔ We couldn't add this address</h2>${meta(d)}<p>For your security, this request was declined. Please contact support if you think this is a mistake.</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
+    if (d.decision === 'DECLINE') return show(`<h2>⛔ We couldn't add this address</h2>${meta(d)}<p>Something went wrong on our end. Please try again later or contact customer support.</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
     show(`<h2>🔐 Verify it's you</h2>${meta(d)}<p>Enter the 6-digit code sent to your mobile to add a new address.<br><small>Demo OTP: <b>${d.demoOtp}</b></small></p>
       <input class="otp" id="otp" maxlength="6" inputmode="numeric"><div class="err" id="oerr"></div><button class="btn" id="vbtn">Verify</button>`);
     $('#vbtn').onclick = () => {
