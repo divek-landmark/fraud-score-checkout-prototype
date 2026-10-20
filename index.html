@@ -205,6 +205,8 @@
   <div class="fbo">Continue with Facebook</div>
   <div class="or" style="margin-top:36px">DON'T HAVE AN ACCOUNT?</div>
   <a class="btn o" href="#signup">Sign Up Now</a>
+  <div class="or" style="margin-top:28px">OR</div>
+  <button type="button" class="btn o" id="guestbtn">Checkout As A Guest</button>
 </form>
 </div>
 <form id="step2" hidden autocomplete="off" style="margin-top:60px">
@@ -321,7 +323,7 @@
     <div class="f"><label>Password</label><input name="password" type="password" placeholder="Enter your password" required minlength="6"></div>
     <div class="f"><label>Confirm Password</label><input name="confirm" type="password" placeholder="Confirm your password" required></div>
     <div class="f"><label>Mobile <small>(We'll send you a verification code)</small></label>
-      <div class="phone"><input name="phone" placeholder="+971 50XXXXXXX"><button type="button" id="vphone">Verify</button></div></div>
+      <div class="phone"><input name="phone" placeholder="+968 77XXXXXX"><button type="button" id="vphone">Verify</button></div></div>
     <div class="f"><label><input type="checkbox" style="width:auto"> Send me the latest offers and updates from Landmark Group brands.</label></div>
     <div class="err" id="ferr"></div>
     <button class="btn" id="submit">Sign Up</button>
@@ -391,7 +393,7 @@ const RULES = [
   { id: 'fast_form', label: 'form completed unusually fast', pts: 25, desc: 'Time from page load to submit under 4 seconds', input: (c) => c.s.timeToSubmitMs != null ? `${c.s.timeToSubmitMs} ms` : '(n/a)', test: (c) => c.s.timeToSubmitMs != null && c.s.timeToSubmitMs < 4000 },
   { id: 'pasted', label: 'pasted form values', pts: 5, desc: 'Paste event seen in the session (credential stuffing hint)', input: (c) => String(!!c.s.pasted), test: (c) => !!c.s.pasted },
   { id: 'vpn', label: 'VPN/proxy likely', pts: 15, desc: 'Partner IP intelligence flags VPN / proxy / TOR', input: (c) => String(!!c.s.vpnLikely), test: (c) => !!c.s.vpnLikely },
-  { id: 'phone_format', label: 'phone not valid UAE mobile format', pts: 15, desc: 'Mobile number does not match the expected format', input: (c) => c.phone || '(none)', test: (c) => !!c.phone && !/^5\d{8}$/.test(c.phone.replace(/\s/g, '')) },
+  { id: 'phone_format', label: 'phone not valid Oman mobile format', pts: 15, desc: 'Mobile number does not match the expected format', input: (c) => c.phone || '(none)', test: (c) => !!c.phone && !/^[79]\d{7}$/.test(c.phone.replace(/\D/g, '').replace(/^968/, '')) },
 ];
 const rulePts = (r) => { try { const o = JSON.parse(localStorage.getItem('fraudRules')) || {}; return o[r.id] ?? r.pts; } catch { return r.pts; } };
 function partnerScore({ email = '', phone = '', signals = {}, scenario }) {
@@ -508,6 +510,7 @@ function route() {
   if (!h) { location.replace('#cart'); return; }
   const signin = !['#signup', '#forgot', '#checkout', '#cart', '#admin', '#fraud'].includes(h);
   $('#admin').hidden = h !== '#admin'; $('#fraud').hidden = h !== '#fraud'; document.querySelector('.demo').hidden = ['#admin', '#fraud'].includes(h); document.querySelector('body > header').hidden = ['#admin', '#fraud', '#cart', '#checkout'].includes(h);
+  if (window.adminReady) updateGuest();
   if (h === '#admin' && window.adminReady) renderAdmin();
   if (h === '#fraud' && window.adminReady) renderFraud();
   $('#cart').hidden = h !== '#cart';
@@ -636,11 +639,11 @@ const addrForm = (id, title, btn) => `<form id="${id}" class="afm"><button type=
     <label style="font-weight:400;display:flex;gap:8px;align-items:center;margin:0 0 22px"><input type="checkbox" name="dflt" checked style="width:auto"> Use this as my default shipping address</label>
     <button class="btn" id="${id[0]}ship" style="border-radius:4px">${btn}</button></form>`;
 // Address menu (Make default / Edit / Delete): changing the ship-to is an account-takeover move, so each action uses the same fraud check as Add New Address.
-function guardAddressAction(label, apply) {
-  const d = signupApi({ email: '', phone: '', signals: FraudSDK.collect(), scenario: $('#scenario').value, action: 'Address: ' + label });
+function guardAddressAction(label, apply, prefix = 'Address: ', phone = '') {
+  const d = signupApi({ email: '', phone, signals: FraudSDK.collect(), scenario: $('#scenario').value, action: prefix + label });
   if (d.decision === 'ALLOW' || (d.decision === 'CHALLENGE_OTP' && otpVerified)) return apply();
   if (d.decision === 'DECLINE') return show(`<h2>⛔ We couldn't ${label}</h2>${meta(d)}<p>Something went wrong on our end. Please try again later or contact customer support.</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
-  show(`<h2>🔐 Verify it's you</h2>${meta(d)}<p>Enter the 6-digit code sent to your mobile to ${label}.<br><small>Demo OTP: <b>${d.demoOtp}</b></small></p>
+  show(`<h2>🔐 Verify it's you</h2>${meta(d)}<p>Enter the 6-digit code sent to ${phone ? `+968 ${phone.slice(0, 2)}••••${phone.slice(-2)}` : 'your mobile'} to ${label}.<br><small>Demo OTP: <b>${d.demoOtp}</b></small></p>
     <input class="otp" id="otp" maxlength="6" inputmode="numeric"><div class="err" id="oerr"></div><button class="btn" id="vbtn">Verify</button>`);
   $('#vbtn').onclick = () => {
     const j = verifyOtpApi({ sessionId: d.sessionId, code: $('#otp').value });
@@ -649,6 +652,20 @@ function guardAddressAction(label, apply) {
     $('#oerr').textContent = `${j.error}. Attempts left: ${j.attemptsLeft}`;
   };
 }
+// Guest checkout is gated by the same thresholds: allow -> straight to checkout, OTP band -> verify first, decline -> vague failure.
+$('#guestbtn').onclick = () => {
+  show(`<h2>Checkout as a guest</h2><p>Enter your mobile number. We may send a code to confirm it's you.</p><div style="display:flex;gap:8px;align-items:center"><b>+968</b><input id="gph" inputmode="numeric" maxlength="8" placeholder="77XXXXXX" style="flex:1"></div><div class="err" id="gerr"></div><button class="btn" id="gcont" disabled>Continue</button>`);
+  const ph = () => $('#gph').value.replace(/\s/g, '');
+  $('#gph').oninput = () => { $('#gcont').disabled = !/^[79]\d{7}$/.test(ph()); };
+  $('#gcont').onclick = () => guardAddressAction('continue as a guest', () => { modal.classList.remove('show'); location.hash = '#checkout'; }, 'Guest checkout', ph());
+};
+// Pre-check (not logged): disable guest checkout when the device already scores in the decline band.
+function updateGuest() {
+  const sig = FraudSDK.collect(), pr = partnerScore({ signals: sig, scenario: $('#scenario').value });
+  const blocked = store.get('fraudBlock', []).some((x) => x.type === 'device' && x.value === sig.deviceId);
+  $('#guestbtn').disabled = blocked || decide(pr.score) === 'DECLINE';
+}
+$('#scenario').addEventListener('change', updateGuest);
 const amenu = document.createElement('div'); amenu.className = 'amenu'; amenu.hidden = true;
 amenu.innerHTML = '<button data-a="default">&#10003; Make default</button><button data-a="edit">&#9998; Edit</button><button data-a="delete">&#128465; Delete</button>';
 document.body.appendChild(amenu);
@@ -741,12 +758,12 @@ $('#fresend').onclick = () => {
 
 let useMobile = false;
 const sid = $('#sid');
-const validId = () => useMobile ? /^5\d{8}$/.test(sid.value.replace(/\D/g, '').replace(/^971/, '').replace(/^0/, '')) : sid.validity.valid && sid.value;
+const validId = () => useMobile ? /^[79]\d{7}$/.test(sid.value.replace(/\D/g, '').replace(/^968/, '')) : sid.validity.valid && sid.value;
 sid.addEventListener('input', () => { $('#sbtn').disabled = !validId(); });
 $('#smode').onclick = () => {
   useMobile = !useMobile; sid.value = ''; $('#sbtn').disabled = true; $('#serr').textContent = '';
   sid.type = useMobile ? 'tel' : 'email';
-  sid.placeholder = useMobile ? '+971 50XXXXXXX' : 'Enter your Email';
+  sid.placeholder = useMobile ? '+968 77XXXXXX' : 'Enter your Email';
   $('#slabel').textContent = useMobile ? 'Mobile Number' : 'Email';
   $('#smode').textContent = useMobile ? 'Use Email Instead' : 'Use Mobile Number Instead';
 };
@@ -787,12 +804,12 @@ $('#step2').addEventListener('submit', (e) => {
 let phoneVerified = false;
 $('#vphone').onclick = () => {
   const input = document.querySelector('[name=phone]');
-  const digits = input.value.replace(/\D/g, '').replace(/^971/, '').replace(/^0/, '');
-  if (!/^5\d{8}$/.test(digits)) return show(`<h2>Enter a valid mobile</h2><p>Use a UAE mobile number, e.g. 50 123 4567.</p><button class="btn" onclick="modal.classList.remove('show')">OK</button>`);
+  const digits = input.value.replace(/\D/g, '').replace(/^968/, '');
+  if (!/^[79]\d{7}$/.test(digits)) return show(`<h2>Enter a valid mobile</h2><p>Use an Oman mobile number, e.g. 77 123 456.</p><button class="btn" onclick="modal.classList.remove('show')">OK</button>`);
   const sessionId = crypto.randomUUID();
   const code = String(100000 + crypto.getRandomValues(new Uint32Array(1))[0] % 900000);
   otps.set(sessionId, { code, attempts: 0, expires: Date.now() + 5 * 60e3 });
-  show(`<h2>📱 Verify your mobile</h2><p>Enter the 6-digit code sent to +971 ${digits}.<br><small>Demo OTP: <b>${code}</b></small></p>
+  show(`<h2>📱 Verify your mobile</h2><p>Enter the 6-digit code sent to +968 ${digits}.<br><small>Demo OTP: <b>${code}</b></small></p>
     <input class="otp" id="potp" maxlength="6" inputmode="numeric"><div class="err" id="perr"></div><button class="btn" id="pbtn">Verify</button>`);
   $('#pbtn').onclick = () => {
     const j = verifyOtpApi({ sessionId, code: $('#potp').value });
@@ -953,7 +970,7 @@ $('#frules').addEventListener('click', (ev) => {
   } else if (ev.target.id === 'rreset') { localStorage.removeItem('fraudRules'); localStorage.removeItem('fraudThresholds'); THRESHOLDS.challenge = 30; THRESHOLDS.decline = 70; } else return;
   renderFraud();
 });
-window.adminReady = true; if (location.hash === '#admin') renderAdmin(); if (location.hash === '#fraud') renderFraud();
+window.adminReady = true; updateGuest(); if (location.hash === '#admin') renderAdmin(); if (location.hash === '#fraud') renderFraud();
 </script>
 </body>
 </html>

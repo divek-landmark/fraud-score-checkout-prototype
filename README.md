@@ -30,7 +30,7 @@ Everything is in one file: a mock partner SDK (signal collection), a rule-based 
 
 ## Customer journey
 
-Starts at the cart (`#cart`), then sign in / sign up / forgot password, then checkout and payment. Fraud checks run on sign-in, sign-up, forgot password, add/edit/delete/default address, Shukran redemption, checkout load (Cash on Delivery is greyed out unless the decision is Allow) and Pay Now.
+Starts at the cart (`#cart`), then sign in / sign up / forgot password / **Checkout as a guest**, then checkout and payment. Fraud checks run on guest checkout (Allow → straight to checkout, OTP band → verify first, Decline → button disabled), sign-in, sign-up, forgot password, add/edit/delete/default address, Shukran redemption, checkout load (Cash on Delivery is greyed out unless the decision is Allow) and Pay Now.
 
 - OTP is verified once per session; medium-risk address and Shukran steps then skip it. Pay Now always re-challenges. High risk always declines.
 - Declines never reveal the reason: customers see a vague "Something went wrong" message plus a reference code.
