@@ -473,8 +473,9 @@ function verifyOtpApi({ sessionId, code }) {
 
 const $ = (s) => document.querySelector(s);
 const card = $('#card'), modal = $('#m');
-const show = (html) => { card.style.width = ''; card.innerHTML = html.replace(VAGUE, `${VAGUE}<br><small style="color:#667">Reference: ${lastRef}</small>`); modal.classList.add('show'); };
+const show = (html) => { card.style.width = ''; card.innerHTML = html.replace(VAGUE, `${VAGUE}<br><small style="color:#667">Reference: ${lastRef}</small>`).replace(DECLINE_MSG, `${DECLINE_MSG}<br><small style="color:#667">Reference: ${lastRef}</small>`); modal.classList.add('show'); };
 const reasons = (r) => r && r.length ? `<ul class="reasons">${r.map(x=>`<li>${x}</li>`).join('')}</ul>` : '';
+const DECLINE_MSG = 'Suspicious activity has been detected from your device. This activity has been recorded and your request cannot be completed.';
 const VAGUE = 'Something went wrong on our end. Please try again later or contact customer support.';
 const meta = (d) => !$('#showfraud').checked ? '' : `<span class="badge ${d.decision==='ALLOW'?'allow':d.decision==='DECLINE'?'decline':'challenge'}">Fraud score ${d.score} → ${d.decision}</span>${reasons(d.reasons)}`;
 
@@ -489,7 +490,7 @@ function success(d) {
   $('#tocheckout').onclick = () => { signedIn = true; modal.classList.remove('show'); location.hash = '#checkout'; };
 }
 function decline(d, msg) {
-  show(`<h2>⛔ ${flow === 'reset' ? "We couldn't process your request" : flow === 'signin' ? "We couldn't sign you in" : "We couldn't create your account"}</h2>${d ? meta(d) : ''}<p>${msg || 'Something went wrong on our end. Please try again later or contact customer support.'}</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
+  show(`<h2>⛔ ${flow === 'reset' ? "We couldn't process your request" : flow === 'signin' ? "We couldn't sign you in" : "We couldn't create your account"}</h2>${d ? meta(d) : ''}<p>${msg || 'Suspicious activity has been detected from your device. This activity has been recorded and your request cannot be completed.'}</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
 }
 function challenge(d) {
   show(`<h2>🔐 Verify it's you</h2>${meta(d)}
@@ -526,7 +527,7 @@ document.querySelectorAll('#checkout .opt input[type=radio]').forEach((r) => r.a
 }));
 $('#paynow').onclick = () => {
   const d = checkoutRisk('Payment (Pay Now)');
-  if (d.decision === 'DECLINE') return show(`<h2>⛔ We couldn't process this payment</h2>${meta(d)}<p>Something went wrong on our end. Please try again later or contact customer support.</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
+  if (d.decision === 'DECLINE') return show(`<h2>⛔ We couldn't process this payment</h2>${meta(d)}<p>Suspicious activity has been detected from your device. This activity has been recorded and your request cannot be completed.</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
   if (d.decision === 'CHALLENGE_OTP') {
     show(`<h2>🔐 Verify this payment</h2>${meta(d)}<p>Enter the 6-digit code sent to your mobile.<br><small>Demo OTP: <b>${d.demoOtp}</b></small></p>
       <input class="otp" id="otp" maxlength="6" inputmode="numeric"><div class="err" id="oerr"></div><button class="btn" id="vbtn">Verify &amp; Pay</button>`);
@@ -574,7 +575,7 @@ function redeemWithFraudCheck(points, onOk) {
   const d = signupApi({ email: '', phone: '', signals: FraudSDK.collect(), scenario: $('#scenario').value, action: 'Shukran redemption' });
   const apply = () => { shkUsed = points; renderShk(); modal.classList.remove('show'); if (onOk) onOk(); };
   if (d.decision === 'ALLOW' || (d.decision === 'CHALLENGE_OTP' && otpVerified)) return apply();
-  if (d.decision === 'DECLINE') return show(`<h2>⛔ We couldn't redeem Shukrans</h2>${meta(d)}<p>Something went wrong on our end. Please try again later or contact customer support.</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
+  if (d.decision === 'DECLINE') return show(`<h2>⛔ We couldn't redeem Shukrans</h2>${meta(d)}<p>Suspicious activity has been detected from your device. This activity has been recorded and your request cannot be completed.</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
   show(`<h2>🔐 Verify it's you</h2>${meta(d)}<p>Enter the 6-digit code sent to your mobile to redeem ${points} Shukrans.<br><small>Demo OTP: <b>${d.demoOtp}</b></small></p>
     <input class="otp" id="otp" maxlength="6" inputmode="numeric"><div class="err" id="oerr"></div><button class="btn" id="vbtn">Verify</button>`);
   $('#vbtn').onclick = () => {
@@ -642,7 +643,7 @@ const addrForm = (id, title, btn) => `<form id="${id}" class="afm"><button type=
 function guardAddressAction(label, apply, prefix = 'Address: ', phone = '') {
   const d = signupApi({ email: '', phone, signals: FraudSDK.collect(), scenario: $('#scenario').value, action: prefix + label });
   if (d.decision === 'ALLOW' || (d.decision === 'CHALLENGE_OTP' && otpVerified)) return apply();
-  if (d.decision === 'DECLINE') return show(`<h2>⛔ We couldn't ${label}</h2>${meta(d)}<p>Something went wrong on our end. Please try again later or contact customer support.</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
+  if (d.decision === 'DECLINE') return show(`<h2>⛔ We couldn't ${label}</h2>${meta(d)}<p>Suspicious activity has been detected from your device. This activity has been recorded and your request cannot be completed.</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
   show(`<h2>🔐 Verify it's you</h2>${meta(d)}<p>Enter the 6-digit code sent to ${phone ? `+968 ${phone.slice(0, 2)}••••${phone.slice(-2)}` : 'your mobile'} to ${label}.<br><small>Demo OTP: <b>${d.demoOtp}</b></small></p>
     <input class="otp" id="otp" maxlength="6" inputmode="numeric"><div class="err" id="oerr"></div><button class="btn" id="vbtn">Verify</button>`);
   $('#vbtn').onclick = () => {
@@ -730,7 +731,7 @@ $('#addnew').onclick = (e) => {
     };
     const d = signupApi({ email: '', phone: '', signals: FraudSDK.collect(), scenario: $('#scenario').value, action: 'Address: add new address' });
     if (d.decision === 'ALLOW' || (d.decision === 'CHALLENGE_OTP' && otpVerified)) return save();
-    if (d.decision === 'DECLINE') return show(`<h2>⛔ We couldn't add this address</h2>${meta(d)}<p>Something went wrong on our end. Please try again later or contact customer support.</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
+    if (d.decision === 'DECLINE') return show(`<h2>⛔ We couldn't add this address</h2>${meta(d)}<p>Suspicious activity has been detected from your device. This activity has been recorded and your request cannot be completed.</p><button class="btn" onclick="modal.classList.remove('show')">Close</button>`);
     show(`<h2>🔐 Verify it's you</h2>${meta(d)}<p>Enter the 6-digit code sent to your mobile to add a new address.<br><small>Demo OTP: <b>${d.demoOtp}</b></small></p>
       <input class="otp" id="otp" maxlength="6" inputmode="numeric"><div class="err" id="oerr"></div><button class="btn" id="vbtn">Verify</button>`);
     $('#vbtn').onclick = () => {
@@ -853,7 +854,7 @@ function renderAdmin() {
   $('#adetail').innerHTML = `<h3>${esc(e.ref)} <span class="pill2 ${PILL[e.decision][0]}">${PILL[e.decision][1]}</span></h3>
     <div class="anote">${new Date(e.ts).toLocaleString()} &middot; ${esc(e.user)} &middot; ${esc(e.action)}</div>
     ${e.ctx ? `<h4>Order details</h4><div>Payment method selected: <b>${esc(e.ctx.payment)}</b><br>Order total: <b>${esc(e.ctx.total)}</b>${e.ctx.shukrans ? `<br>Shukrans applied: <b>${e.ctx.shukrans}</b>` : ''}</div>` : ''}
-    <h4>What the customer saw</h4><div>${e.decision === 'DECLINE' || /DECLINED/.test(e.final) ? 'Generic message: "Something went wrong on our end&hellip;" with this reference.' : e.decision === 'CHALLENGE_OTP' ? 'An OTP prompt to their mobile.' : 'Nothing &mdash; the action was allowed.'}</div>
+    <h4>What the customer saw</h4><div>${e.decision === 'DECLINE' || /DECLINED/.test(e.final) ? 'Deterrent message: "Suspicious activity has been detected from your device&hellip;" with this reference.' : e.decision === 'CHALLENGE_OTP' ? 'An OTP prompt to their mobile.' : 'Nothing &mdash; the action was allowed.'}</div>
     <h4>Partner fraud score</h4><div><b>${e.score}</b> / 100 &nbsp;(allow &lt;${THRESHOLDS.challenge}, OTP ${THRESHOLDS.challenge}&ndash;${THRESHOLDS.decline - 1}, decline &ge;${THRESHOLDS.decline})</div>
     <h4>Why (internal)</h4><ul>${e.reasons.map((r) => `<li>${esc(r)}</li>`).join('')}</ul>
     <h4>OTP / final outcome</h4><div>OTP: ${esc(e.otp)} &middot; Final: <b>${esc(e.final)}</b></div>
